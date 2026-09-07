@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulador de Compra de Ingressos — Jogos de Futebol</title>
+    <link rel="stylesheet" href="css/estilo.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Simulador de Compra de Ingressos — Jogos de Futebol</h1>
+            <p>Este formulário foi criado para fins didáticos em automação web!</p>
+            <p>Não há realização de vendas reais neste simulador.</p>
+        </header>
+
+        <form id="compraForm">
+            <!-- DADOS PESSOAIS -->
+            <section class="form-group">
+                <h2>Dados do Comprador</h2>
+
+                <label for="nome">Nome *</label>
+                <input type="text" id="nome" name="nome" required>
+
+                <label for="sobrenome">Sobrenome *</label>
+                <input type="text" id="sobrenome" name="sobrenome" required>
+
+                <label for="email">E-mail *</label>
+                <input type="email" id="email" name="email" required>
+
+                <label for="telefone">Telefone (com DDD)</label>
+                <input type="tel" id="telefone" name="telefone" placeholder="Ex: 49999991234">
+            </section>
+
+            <!-- ESCOLHA DO JOGO -->
+            <section class="form-group">
+                <h2>Jogo e Setor</h2>
+
+                <label for="jogo">Jogo *</label>
+                <select id="jogo" name="jogo" required>
+                    <option value="">Selecione um jogo</option>
+                    <option value="fla_x_spa">Flamengo x Santos — 15/10/2026 · 16h00</option>
+                    <option value="pal_x_gre">Palmeiras x Grêmio — 18/10/2026 · 19h30</option>
+                    <option value="cor_x_bah">Corinthians x Bahia — 22/10/2026 · 21h00</option>
+                    <option value="cru_x_vas">Cruzeiro x Vasco — 25/10/2026 · 15h00</option>
+                </select>
+
+                <label for="setor">Setor *</label>
+                <select id="setor" name="setor" required>
+                    <option value="">Selecione o setor</option>
+                    <option value="arquibancada">Arquibancada — R$ 80,00</option>
+                    <option value="arquibancada-superior">Arquibancada Superior — R$ 100,00</option>
+                    <option value="cadeira">Cadeira Coberta — R$ 150,00</option>
+                    <option value="vip">Setor VIP — R$ 300,00</option>
+                </select>
+
+                <label for="quantidade">Quantidade * (máx. 10)</label>
+                <input type="number" id="quantidade" name="quantidade" min="1" max="10" required>
+            </section>
+
+            <!-- FORMA DE PAGAMENTO -->
+            <section class="form-group">
+                <h2>Forma de Pagamento *</h2>
+
+                <label>
+                    <input type="radio" name="pagamento" value="pix" required> PIX
+                </label>
+                <label>
+                    <input type="radio" name="pagamento" value="cartao"> Cartão de Crédito
+                </label>
+                <label>
+                    <input type="radio" name="pagamento" value="boleto"> Boleto Bancário
+                </label>
+            </section>
+
+            <!-- INFORMAÇÕES ADICIONAIS -->
+            <section class="form-group">
+                <h2>Informações Adicionais</h2>
+                <label for="observacoes">Algum pedido especial?</label>
+                <textarea id="observacoes" name="observacoes" rows="4" placeholder="Ex: necessidade de acesso, acompanhante, etc."></textarea>
+            </section>
+
+            <!-- CONFIRMAÇÃO -->
+            <section class="form-group">
+                <label class="checkbox-label">
+                    <input type="checkbox" id="concorda" required>
+                    Li e concordo com os termos de uso e política de privacidade *
+                </label>
+            </section>
+
+            <!-- BOTÃO DE ENVIO -->
+            <button type="submit" id="enviar">Confirmar Compra</button>
+        </form>
+
+        <!-- MENSAGENS DE FEEDBACK -->
+        <div id="mensagemSucesso" class="mensagem sucesso" hidden>
+            ✅ Compra realizada com sucesso! Em breve você receberá os ingressos por e-mail.
+        </div>
+        <div id="mensagemErro" class="mensagem erro" hidden>
+            ⚠️ Verifique os campos obrigatórios e tente novamente.
+        </div>
+    </div>
+
+    <script>
+        // VALIDAÇÃO E ENVIO DO FORMULÁRIO
+        const form = document.getElementById('compraForm');
+        const msgSucesso = document.getElementById('mensagemSucesso');
+        const msgErro = document.getElementById('mensagemErro');
+
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            msgSucesso.hidden = true;
+            msgErro.hidden = true;
+
+            const emailValido = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(document.getElementById('email').value);
+            const telefone = document.getElementById('telefone').value.replace(/\D/g, '');
+            const telefoneValido = telefone === '' || telefone.length >= 10;
+
+            if (emailValido && telefoneValido) {
+                msgSucesso.hidden = false;
+                form.reset();
+            } else {
+                msgErro.hidden = false;
+            }
+        });
+    </script>
+</body>
+</html>
